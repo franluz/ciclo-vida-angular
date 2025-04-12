@@ -31,7 +31,21 @@ export class ListaDeCompraService {
     console.log('Instanciando dependências necessárias para o serviço.');
   }
 
-  getListaDeCompra(){
+  getListaDeCompra() {
     return this.listaDeCompra;
+  }
+  criarItem(nomeDoItem: string) {
+    const id = this.listaDeCompra.length + 1;
+    const item: Item = {
+      id: id,
+      nome: nomeDoItem,
+      data: new Date().toLocaleDateString('pt-BR'),
+      comprado: false
+    }
+    return item;
+  }
+  adicionarItemNaLista(nomeItem: string) {
+    const item = this.criarItem(nomeItem);
+    this.listaDeCompra.push(item);
   }
 }
