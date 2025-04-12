@@ -2,6 +2,7 @@
   class="checkbox"
   type="checkbox"
   name="comprado"
+  (change)="trocaValor()"
   [checked]="item.comprado"
   id="comprado">
 <p class="description">{{item.nome}}</p>
