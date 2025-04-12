@@ -1,5 +1,5 @@
 import { ListaDeCompraService } from './../../service/lista-de-compra.service';
-import { Component, Input, OnChanges, OnInit, Output, SimpleChanges, EventEmitter } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Output, SimpleChanges, EventEmitter, OnDestroy } from '@angular/core';
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Item } from 'src/app/interfaces/iItem';
 
@@ -8,10 +8,10 @@ import { Item } from 'src/app/interfaces/iItem';
   templateUrl: './item.component.html',
   styleUrls: ['./item.component.css']
 })
-export class ItemComponent implements OnInit, OnChanges {
+export class ItemComponent implements OnInit, OnChanges,OnDestroy {
   @Input() item!: Item
   @Output() emitindoItemParaEditar = new EventEmitter();
-
+  @Output() emitindoIdParaDeletar = new EventEmitter();
   faPen = faPen;
   faTrash = faTrash
 
@@ -26,15 +26,14 @@ export class ItemComponent implements OnInit, OnChanges {
     this.emitindoItemParaEditar.emit(this.item);
   }
   trocaValor() {
-    const itemEditado: Item = {
-      id: this.item.id,
-      nome: this.item.nome,
-      data: this.item.data,
-      comprado: !this.item.comprado
-    }
-    this.listaDeCompraService.alterarSituacaoComprado(itemEditado);
-    this.listaDeCompraService.atualizarLocalStorage();
+    this.item.comprado = !this.item.comprado;
 
   }
-
+  deletarItem() {
+    this.emitindoIdParaDeletar.emit(this.item.id);
+    console.log('ESTAO TENTANDO ME CALAR')
+   }
+   ngOnDestroy(){
+    console.log('CONSEGUIRAM ME CALAR');
+   }
 }
